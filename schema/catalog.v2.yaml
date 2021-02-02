@@ -1,0 +1,221 @@
+openapi: 3.0.0
+tags:
+  - name: Category
+    description: Category API
+  - name: Product
+    description: Product API
+  - name: Product Class
+    description: Product Class API
+  - name: Product Option
+    description: Product Option API
+  - name: Product Subcription
+    description: Product Subscription API
+info:
+  title: Nusantara Catalog API
+  version: 2.0.0
+  description: Catalog API
+  contact:
+    name: Gramedia Digital Nusantara
+  license:
+    name: propietary
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/category/{slug}/':
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+      operationId: get-category
+      parameters: []
+      description: Category Listing
+      tags:
+        - Category
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+    patch:
+      operationId: patch-category
+      description: Update category
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+      tags:
+        - Category
+      security:
+        - JWT Token: []
+    delete:
+      summary: ''
+      operationId: delete-category-slug
+      responses:
+        '204':
+          description: No Content
+      description: Delete Category
+      tags:
+        - Category
+  /category/:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Category
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Page:
+              description: A link to the next page of responses
+              schema:
+                type: integer
+            X-Per-Page:
+              description: Maximum number of results per page.
+              schema:
+                type: integer
+            X-Total-Results:
+              description: The total number of results across all pages.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+      operationId: get-category-list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: per_page
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: q
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
+        - name: ordering
+          required: false
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+        - name: path_name__icontains
+          required: false
+          in: query
+          description: path_name__icontains
+          schema:
+            type: string
+        - name: depth__lte
+          required: false
+          in: query
+          description: depth__lte
+          schema:
+            type: string
+        - name: depth
+          required: false
+          in: query
+          description: depth
+          schema:
+            type: string
+        - schema:
+            type: string
+          in: query
+          name: include_deleted
+          description: Show soft deleted
+      description: Category Listing
+    post:
+      summary: ''
+      operationId: post-category
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      description: Create new Category
+      tags:
+        - Category
+      security:
+        - JWT Token: []
+components:
+  schemas:
+    Category:
+      type: object
+      description: ''
+      properties:
+        name:
+          type: string
+          maxLength: 120
+        path_name:
+          type: string
+          maxLength: 255
+        product_count:
+          type: string
+          readOnly: true
+        depth:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        source_mappings:
+          type: array
+          items:
+            type: string
+        href:
+          type: string
+          format: uri
+          readOnly: true
+        image:
+          type: string
+          format: binary
+        parent:
+          type: string
+          nullable: true
+          description: The first direct ancestor of this category
+        is_active:
+          type: boolean
+        slug:
+          type: string
+          readOnly: true
+      required:
+        - name
+  securitySchemes:
+    JWT Token:
+      type: http
+      scheme: bearer
+security:
+  - JWT Token: []
