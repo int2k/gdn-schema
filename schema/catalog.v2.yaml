@@ -11,6 +11,8 @@ tags:
   - name: Product Subcription
     description: Product Subscription API
   - name: Vendor
+  - name: product-class
+  - name: product-option
 info:
   title: Nusantara Catalog API
   version: 2.0.0
@@ -299,6 +301,7 @@ paths:
       summary: List Product Option
       tags:
         - Product Option
+        - product-option
       responses:
         '200':
           description: OK
@@ -374,6 +377,7 @@ paths:
       summary: Product option detail
       tags:
         - Product Option
+        - product-option
       responses:
         '200':
           description: OK
@@ -418,6 +422,7 @@ paths:
       summary: List Product Class
       tags:
         - Product Class
+        - product-class
       responses:
         '200':
           description: OK
@@ -491,6 +496,7 @@ paths:
       summary: Product Class Detail
       tags:
         - Product Class
+        - product-class
       responses:
         '200':
           description: OK
