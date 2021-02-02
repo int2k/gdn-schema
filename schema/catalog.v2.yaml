@@ -1,20 +1,15 @@
 openapi: 3.0.0
 tags:
-  - name: Category
-    description: Category API
   - name: Product
     description: Product API
-  - name: Product Class
-    description: Product Class API
-  - name: Product Option
-    description: Product Option API
   - name: Product Subcription
     description: Product Subscription API
   - name: Vendor
   - name: product-class
   - name: product-option
   - name: product
-  - name: product-search
+  - name: category
+  - name: vendor
 info:
   title: Nusantara Catalog API
   version: 2.0.0
@@ -41,7 +36,7 @@ paths:
       description: |
         Category Detail
       tags:
-        - Category
+        - category
     parameters:
       - schema:
           type: string
@@ -59,7 +54,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Category'
       tags:
-        - Category
+        - category
       security:
         - JWT Token: []
       summary: Update Category
@@ -71,12 +66,12 @@ paths:
           description: No Content
       description: Delete Category
       tags:
-        - Category
+        - category
   /category/:
     get:
       summary: Categories list
       tags:
-        - Category
+        - category
       responses:
         '200':
           description: OK
@@ -176,14 +171,14 @@ paths:
               $ref: '#/components/schemas/Category'
       description: Create new Category
       tags:
-        - Category
+        - category
       security:
         - JWT Token: []
   /vendor/:
     get:
       summary: Vendor Detail
       tags:
-        - Vendor
+        - vendor
       responses:
         '200':
           description: OK
@@ -247,7 +242,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Vendor'
       tags:
-        - Vendor
+        - vendor
   '/vendor/{slug}/':
     parameters:
       - schema:
@@ -277,7 +272,7 @@ paths:
         - JWT Token: []
       description: Delete Vendor
       tags:
-        - Vendor
+        - vendor
     patch:
       summary: Update Vendor
       operationId: patch-vendor-slug
@@ -297,12 +292,11 @@ paths:
             schema:
               $ref: '#/components/schemas/Vendor'
       tags:
-        - Vendor
+        - vendor
   /product-option/:
     get:
       summary: List Product Option
       tags:
-        - Product Option
         - product-option
       responses:
         '200':
@@ -367,7 +361,7 @@ paths:
         description: ''
       description: Create Product Option
       tags:
-        - Product Option
+        - product-option
   '/product-option/{slug}/':
     parameters:
       - schema:
@@ -378,7 +372,6 @@ paths:
     get:
       summary: Product option detail
       tags:
-        - Product Option
         - product-option
       responses:
         '200':
@@ -407,7 +400,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ProductOption'
       tags:
-        - Product Option
+        - product-option
     delete:
       summary: Delete Product Option
       operationId: delete-product-option-slug
@@ -418,12 +411,11 @@ paths:
       security:
         - JWT Token: []
       tags:
-        - Product Option
+        - product-option
   /product-class/:
     get:
       summary: List Product Class
       tags:
-        - Product Class
         - product-class
       responses:
         '200':
@@ -486,7 +478,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ProductClass'
       tags:
-        - Product Class
+        - product-class
   '/product-class/{slug}/':
     parameters:
       - schema:
@@ -497,7 +489,6 @@ paths:
     get:
       summary: Product Class Detail
       tags:
-        - Product Class
         - product-class
       responses:
         '200':
@@ -528,7 +519,7 @@ paths:
       security:
         - JWT Token: []
       tags:
-        - Product Class
+        - product-class
     delete:
       summary: Delete Product Class
       operationId: delete-product-class-slug
@@ -539,13 +530,12 @@ paths:
       security:
         - JWT Token: []
       tags:
-        - Product Class
+        - product-class
   /product-search/:
     get:
       summary: Search Product
       tags:
         - product
-        - product-search
       responses:
         '200':
           description: OK
@@ -593,7 +583,7 @@ paths:
           description: A search term.
           schema:
             type: string
-      description: 'Search product'
+      description: Search product
 components:
   schemas:
     Category:
