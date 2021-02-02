@@ -24,7 +24,7 @@ servers:
 paths:
   '/category/{slug}/':
     get:
-      summary: Your GET endpoint
+      summary: Category detail
       responses:
         '200':
           description: OK
@@ -34,7 +34,8 @@ paths:
                 $ref: '#/components/schemas/Category'
       operationId: get-category
       parameters: []
-      description: Category Listing
+      description: |
+        Category Detail
       tags:
         - Category
     parameters:
@@ -57,8 +58,9 @@ paths:
         - Category
       security:
         - JWT Token: []
+      summary: Update Category
     delete:
-      summary: ''
+      summary: Delete Category
       operationId: delete-category-slug
       responses:
         '204':
@@ -68,7 +70,7 @@ paths:
         - Category
   /category/:
     get:
-      summary: Your GET endpoint
+      summary: Categories list
       tags:
         - Category
       responses:
@@ -144,7 +146,7 @@ paths:
           description: Show soft deleted
       description: Category Listing
     post:
-      summary: ''
+      summary: Create Category
       operationId: post-category
       responses:
         '201':
@@ -175,7 +177,7 @@ paths:
         - JWT Token: []
   /vendor/:
     get:
-      summary: Your GET endpoint
+      summary: Vendor Detail
       tags:
         - Vendor
       responses:
@@ -222,7 +224,7 @@ paths:
             type: string
       description: Get List of Vendor
     post:
-      summary: ''
+      summary: Create Vendor
       operationId: post-vendor
       responses:
         '201':
@@ -250,7 +252,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Vendor Detail
       tags:
         - Vendor
       responses:
@@ -262,7 +264,7 @@ paths:
                 $ref: '#/components/schemas/Vendor'
       operationId: get-vendor-slug
     delete:
-      summary: ''
+      summary: Delete Vendor
       operationId: delete-vendor-slug
       responses:
         '204':
@@ -273,7 +275,7 @@ paths:
       tags:
         - Vendor
     patch:
-      summary: ''
+      summary: Update Vendor
       operationId: patch-vendor-slug
       responses:
         '200':
@@ -292,6 +294,102 @@ paths:
               $ref: '#/components/schemas/Vendor'
       tags:
         - Vendor
+  /product-option/:
+    get:
+      summary: List Product Option
+      tags:
+        - Product Option
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Page:
+              description: A link to the next page of responses
+              schema:
+                type: integer
+            X-Per-Page:
+              description: Maximum number of results per page.
+              schema:
+                type: integer
+            X-Total-Results:
+              description: The total number of results across all pages.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductOption'
+      operationId: get-product-option
+      description: List product option
+    post:
+      summary: Create Product Option
+      operationId: post-product-option
+      responses:
+        '201':
+          description: Created
+      security:
+        - JWT Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductOption'
+        description: ''
+      description: Create Product Option
+      tags:
+        - Product Option
+  '/product-option/{slug}/':
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+    get:
+      summary: Product option detail
+      tags:
+        - Product Option
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOption'
+      operationId: get-product-option-slug
+      description: Get product option detail
+    patch:
+      summary: Update Product Option
+      operationId: patch-product-option-slug
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOption'
+      security:
+        - JWT Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductOption'
+      tags:
+        - Product Option
+    delete:
+      summary: Delete Product Option
+      operationId: delete-product-option-slug
+      responses:
+        '204':
+          description: No Content
+      description: Delete Product Option
+      security:
+        - JWT Token: []
+      tags:
+        - Product Option
 components:
   schemas:
     Category:
@@ -382,6 +480,7 @@ components:
           type: string
         webhookPostCheckout:
           type: string
+      description: ''
   securitySchemes:
     JWT Token:
       type: http
