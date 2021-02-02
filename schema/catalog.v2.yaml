@@ -253,7 +253,7 @@ paths:
     get:
       summary: Vendor Detail
       tags:
-        - Vendor
+        - vendor
       responses:
         '200':
           description: OK
