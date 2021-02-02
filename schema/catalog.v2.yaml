@@ -10,6 +10,9 @@ tags:
     description: Category API
   - name: vendor
     description: Vendor API
+  - name: reindex-product-references
+  - name: reindex-vendor
+  - name: reindex-category
 info:
   title: Nusantara Catalog API
   version: 2.0.0
@@ -587,6 +590,119 @@ paths:
           schema:
             type: string
       description: Search product
+  /reindex-product/:
+    get:
+      operationId: listdo_reindexs
+      description: Reindex SOLR product document index
+      parameters: []
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+            text/html:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      security:
+        - JWT Token: []
+      summary: Product Reindex
+      tags:
+        - product
+  /reindex-product-references/:
+    get:
+      operationId: listreindex_references
+      description: Republish all product references data
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+            text/html:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+        - reindex-product-references
+        - product
+      summary: Republish Product References
+      security:
+        - JWT Token: []
+  /reindex-vendor/:
+    get:
+      operationId: listreindex_vendors
+      description: Republish all vendor data
+      parameters: []
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+            text/html:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+        - reindex-vendor
+        - vendor
+      summary: Republish Vendor
+      security:
+        - JWT Token: []
+  /reindex-category/:
+    get:
+      operationId: listreindex_categorys
+      description: Republish all category data
+      parameters: []
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+            text/html:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+        - reindex-category
+        - category
+      summary: Republish Category
+      security:
+        - JWT Token: []
+  /reindex-product-class/:
+    get:
+      operationId: listreindex_product_class
+      description: Republish all Product Class data
+      parameters: []
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+            text/html:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+        - reindex-product-class
+      summary: Reindex Product Class
+      security:
+        - JWT Token: []
 components:
   schemas:
     Category:
