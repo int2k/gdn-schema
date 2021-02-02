@@ -13,6 +13,8 @@ tags:
   - name: Vendor
   - name: product-class
   - name: product-option
+  - name: product
+  - name: product-search
 info:
   title: Nusantara Catalog API
   version: 2.0.0
@@ -538,6 +540,60 @@ paths:
         - JWT Token: []
       tags:
         - Product Class
+  /product-search/:
+    get:
+      summary: Search Product
+      tags:
+        - product
+        - product-search
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Page:
+              description: A link to the next page of responses
+              schema:
+                type: integer
+            X-Per-Page:
+              description: Maximum number of results per page.
+              schema:
+                type: integer
+            X-Total-Results:
+              description: The total number of results across all pages.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    href:
+                      type: string
+      operationId: get-product-search
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: per_page
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: q
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
+      description: 'Search product'
 components:
   schemas:
     Category:
@@ -687,6 +743,17 @@ components:
           $ref: '#/components/schemas/ProductOption'
       required:
         - name
+    Product:
+      title: Product
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        href:
+          type: string
+      description: Product
   securitySchemes:
     JWT Token:
       type: http
