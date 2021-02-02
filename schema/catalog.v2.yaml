@@ -360,6 +360,28 @@ components:
               type: string
         productCount:
           type: integer
+    ProductOption:
+      title: ProductOption
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        href:
+          type: string
+        type:
+          type: string
+        minimumLength:
+          type: string
+        maximumLength:
+          type: string
+        isActive:
+          type: string
+        webhookCheckDomain:
+          type: string
+        webhookPostCheckout:
+          type: string
   securitySchemes:
     JWT Token:
       type: http
