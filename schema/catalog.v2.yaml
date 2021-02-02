@@ -10,6 +10,7 @@ tags:
     description: Product Option API
   - name: Product Subcription
     description: Product Subscription API
+  - name: Vendor
 info:
   title: Nusantara Catalog API
   version: 2.0.0
@@ -172,6 +173,125 @@ paths:
         - Category
       security:
         - JWT Token: []
+  /vendor/:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Vendor
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Page:
+              description: A link to the next page of responses
+              schema:
+                type: integer
+            X-Per-Page:
+              description: Maximum number of results per page.
+              schema:
+                type: integer
+            X-Total-Results:
+              description: The total number of results across all pages.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vendor'
+      operationId: get-vendor
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: per_page
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: q
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
+      description: Get List of Vendor
+    post:
+      summary: ''
+      operationId: post-vendor
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+      description: |
+        Create new Vendor
+      security:
+        - JWT Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      tags:
+        - Vendor
+  '/vendor/{slug}/':
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Vendor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+      operationId: get-vendor-slug
+    delete:
+      summary: ''
+      operationId: delete-vendor-slug
+      responses:
+        '204':
+          description: No Content
+      security:
+        - JWT Token: []
+      description: Delete Vendor
+      tags:
+        - Vendor
+    patch:
+      summary: ''
+      operationId: patch-vendor-slug
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+      description: Update Vendor
+      security:
+        - JWT Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      tags:
+        - Vendor
 components:
   schemas:
     Category:
@@ -213,6 +333,33 @@ components:
           readOnly: true
       required:
         - name
+    Vendor:
+      title: Vendor
+      type: object
+      properties:
+        name:
+          type: string
+        href:
+          type: string
+        description:
+          type: string
+        iconImage:
+          type: string
+          format: binary
+        internalNotes:
+          type: string
+        bannerImage:
+          type: string
+          format: binary
+        extra:
+          type: object
+          properties:
+            seoDescription:
+              type: string
+            seoKeywords:
+              type: string
+        productCount:
+          type: integer
   securitySchemes:
     JWT Token:
       type: http
