@@ -1,15 +1,15 @@
 openapi: 3.0.0
 tags:
-  - name: Product
-    description: Product API
-  - name: Product Subcription
-    description: Product Subscription API
-  - name: Vendor
   - name: product-class
+    description: Product Class API
   - name: product-option
+    description: Product Option API
   - name: product
+    description: Product API
   - name: category
+    description: Category API
   - name: vendor
+    description: Vendor API
 info:
   title: Nusantara Catalog API
   version: 2.0.0
@@ -262,6 +262,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Vendor'
       operationId: get-vendor-slug
+      description: Detail of vendor
     delete:
       summary: Delete Vendor
       operationId: delete-vendor-slug
@@ -401,6 +402,7 @@ paths:
               $ref: '#/components/schemas/ProductOption'
       tags:
         - product-option
+      description: Update product option
     delete:
       summary: Delete Product Option
       operationId: delete-product-option-slug
@@ -459,6 +461,7 @@ paths:
           description: A search term.
           schema:
             type: string
+      description: List product class
     post:
       summary: Create Product Class
       operationId: post-product-class
