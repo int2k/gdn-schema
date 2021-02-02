@@ -20,7 +20,7 @@ info:
   license:
     name: propietary
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:3000/api/catalog'
 paths:
   '/category/{slug}/':
     get:
@@ -322,6 +322,25 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProductOption'
       operationId: get-product-option
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: per_page
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: q
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
       description: List product option
     post:
       summary: Create Product Option
@@ -329,6 +348,10 @@ paths:
       responses:
         '201':
           description: Created
+          headers:
+            Location:
+              schema:
+                type: string
       security:
         - JWT Token: []
       requestBody:
@@ -390,6 +413,125 @@ paths:
         - JWT Token: []
       tags:
         - Product Option
+  /product-class/:
+    get:
+      summary: List Product Class
+      tags:
+        - Product Class
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Page:
+              description: A link to the next page of responses
+              schema:
+                type: integer
+            X-Per-Page:
+              description: Maximum number of results per page.
+              schema:
+                type: integer
+            X-Total-Results:
+              description: The total number of results across all pages.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductClass'
+      operationId: get-product-class
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: per_page
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: q
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
+    post:
+      summary: Create Product Class
+      operationId: post-product-class
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+      security:
+        - JWT Token: []
+      description: Create a new Product Class
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductClass'
+      tags:
+        - Product Class
+  '/product-class/{slug}/':
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+    get:
+      summary: Product Class Detail
+      tags:
+        - Product Class
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductClass'
+      operationId: get-product-class-slug
+      description: |
+        GET the detail of product class
+    patch:
+      summary: Update Product Class
+      operationId: patch-product-class-slug
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductClass'
+      description: Update product class data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductClass'
+      security:
+        - JWT Token: []
+      tags:
+        - Product Class
+    delete:
+      summary: Delete Product Class
+      operationId: delete-product-class-slug
+      responses:
+        '204':
+          description: No Content
+      description: Delete product class
+      security:
+        - JWT Token: []
+      tags:
+        - Product Class
 components:
   schemas:
     Category:
@@ -481,6 +623,64 @@ components:
         webhookPostCheckout:
           type: string
       description: ''
+    ProductAttribute:
+      title: ProductAttribute
+      type: object
+      properties:
+        name:
+          type: string
+        href:
+          type: string
+          format: uri
+        type:
+          type: string
+          enum:
+            - text
+            - markdown
+            - integer
+            - decimal
+            - color
+            - image
+            - boolean
+        productClasses:
+          type: array
+          items:
+            type: string
+        minValue:
+          type: number
+        maxValue:
+          type: number
+        isSearchable:
+          type: boolean
+        isFilterable:
+          type: boolean
+      description: ''
+    ProductClass:
+      title: ProductClass
+      type: object
+      properties:
+        name:
+          type: string
+        href:
+          type: string
+        requiresShipping:
+          type: boolean
+        trackStock:
+          type: boolean
+        isPerishable:
+          type: boolean
+        type:
+          type: string
+        productCount:
+          type: number
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductAttribute'
+        option:
+          $ref: '#/components/schemas/ProductOption'
+      required:
+        - name
   securitySchemes:
     JWT Token:
       type: http
