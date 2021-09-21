@@ -1,869 +1,936 @@
 openapi: 3.0.0
-tags:
-  - name: product-class
-    description: Product Class API
-  - name: product-option
-    description: Product Option API
-  - name: product
-    description: Product API
-  - name: category
-    description: Category API
-  - name: vendor
-    description: Vendor API
-  - name: reindex-product-references
-  - name: reindex-vendor
-  - name: reindex-category
 info:
-  title: Nusantara Catalog API
-  version: 2.0.0
-  description: Catalog API
-  contact:
-    name: Gramedia Digital Nusantara
-  license:
-    name: propietary
+    title: Nusantara Catalog API
+    version: 2.0.0
+    description: Catalog API
+    contact:
+        name: Gramedia Digital Nusantara
+    license:
+        name: propietary
 servers:
-  - url: 'http://localhost:3000/api/catalog'
+    -
+        url: 'http://localhost:3000/api/catalog'
 paths:
-  '/category/{slug}/':
-    get:
-      summary: Category detail
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-      operationId: get-category
-      parameters: []
-      description: |
-        Category Detail
-      tags:
-        - category
-    parameters:
-      - schema:
-          type: string
-        name: slug
-        in: path
-        required: true
-    patch:
-      operationId: patch-category
-      description: Update category
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-      tags:
-        - category
-      security:
-        - JWT Token: []
-      summary: Update Category
-    delete:
-      summary: Delete Category
-      operationId: delete-category-slug
-      responses:
-        '204':
-          description: No Content
-      description: Delete Category
-      tags:
-        - category
-  /category/:
-    get:
-      summary: Categories list
-      tags:
-        - category
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Page:
-              description: A link to the next page of responses
-              schema:
-                type: integer
-            X-Per-Page:
-              description: Maximum number of results per page.
-              schema:
-                type: integer
-            X-Total-Results:
-              description: The total number of results across all pages.
-              schema:
-                type: integer
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Category'
-      operationId: get-category-list
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: per_page
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
-        - name: q
-          required: false
-          in: query
-          description: A search term.
-          schema:
-            type: string
-        - name: ordering
-          required: false
-          in: query
-          description: Which field to use when ordering the results.
-          schema:
-            type: string
-        - name: path_name__icontains
-          required: false
-          in: query
-          description: path_name__icontains
-          schema:
-            type: string
-        - name: depth__lte
-          required: false
-          in: query
-          description: depth__lte
-          schema:
-            type: string
-        - name: depth
-          required: false
-          in: query
-          description: depth
-          schema:
-            type: string
-        - schema:
-            type: string
-          in: query
-          name: include_deleted
-          description: Show soft deleted
-      description: Category Listing
-    post:
-      summary: Create Category
-      operationId: post-category
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-            application/xml:
-              schema:
-                type: object
-                properties: {}
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Category'
-      description: Create new Category
-      tags:
-        - category
-      security:
-        - JWT Token: []
-  /vendor/:
-    get:
-      summary: Vendor Detail
-      tags:
-        - vendor
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Page:
-              description: A link to the next page of responses
-              schema:
-                type: integer
-            X-Per-Page:
-              description: Maximum number of results per page.
-              schema:
-                type: integer
-            X-Total-Results:
-              description: The total number of results across all pages.
-              schema:
-                type: integer
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Vendor'
-      operationId: get-vendor
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: per_page
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
-        - name: q
-          required: false
-          in: query
-          description: A search term.
-          schema:
-            type: string
-      description: Get List of Vendor
-    post:
-      summary: Create Vendor
-      operationId: post-vendor
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
-      description: |
-        Create new Vendor
-      security:
-        - JWT Token: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Vendor'
-      tags:
-        - vendor
-  '/vendor/{slug}/':
-    parameters:
-      - schema:
-          type: string
-        name: slug
-        in: path
-        required: true
-    get:
-      summary: Vendor Detail
-      tags:
-        - vendor
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vendor'
-      operationId: get-vendor-slug
-      description: Detail of vendor
-    delete:
-      summary: Delete Vendor
-      operationId: delete-vendor-slug
-      responses:
-        '204':
-          description: No Content
-      security:
-        - JWT Token: []
-      description: Delete Vendor
-      tags:
-        - vendor
-    patch:
-      summary: Update Vendor
-      operationId: patch-vendor-slug
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vendor'
-      description: Update Vendor
-      security:
-        - JWT Token: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Vendor'
-      tags:
-        - vendor
-  /product-option/:
-    get:
-      summary: List Product Option
-      tags:
-        - product-option
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Page:
-              description: A link to the next page of responses
-              schema:
-                type: integer
-            X-Per-Page:
-              description: Maximum number of results per page.
-              schema:
-                type: integer
-            X-Total-Results:
-              description: The total number of results across all pages.
-              schema:
-                type: integer
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductOption'
-      operationId: get-product-option
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: per_page
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
-        - name: q
-          required: false
-          in: query
-          description: A search term.
-          schema:
-            type: string
-      description: List product option
-    post:
-      summary: Create Product Option
-      operationId: post-product-option
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
-      security:
-        - JWT Token: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductOption'
-        description: ''
-      description: Create Product Option
-      tags:
-        - product-option
-  '/product-option/{slug}/':
-    parameters:
-      - schema:
-          type: string
-        name: slug
-        in: path
-        required: true
-    get:
-      summary: Product option detail
-      tags:
-        - product-option
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductOption'
-      operationId: get-product-option-slug
-      description: Get product option detail
-    patch:
-      summary: Update Product Option
-      operationId: patch-product-option-slug
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductOption'
-      security:
-        - JWT Token: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductOption'
-      tags:
-        - product-option
-      description: Update product option
-    delete:
-      summary: Delete Product Option
-      operationId: delete-product-option-slug
-      responses:
-        '204':
-          description: No Content
-      description: Delete Product Option
-      security:
-        - JWT Token: []
-      tags:
-        - product-option
-  /product-class/:
-    get:
-      summary: List Product Class
-      tags:
-        - product-class
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Page:
-              description: A link to the next page of responses
-              schema:
-                type: integer
-            X-Per-Page:
-              description: Maximum number of results per page.
-              schema:
-                type: integer
-            X-Total-Results:
-              description: The total number of results across all pages.
-              schema:
-                type: integer
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductClass'
-      operationId: get-product-class
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: per_page
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
-        - name: q
-          required: false
-          in: query
-          description: A search term.
-          schema:
-            type: string
-      description: List product class
-    post:
-      summary: Create Product Class
-      operationId: post-product-class
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
-      security:
-        - JWT Token: []
-      description: Create a new Product Class
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductClass'
-      tags:
-        - product-class
-  '/product-class/{slug}/':
-    parameters:
-      - schema:
-          type: string
-        name: slug
-        in: path
-        required: true
-    get:
-      summary: Product Class Detail
-      tags:
-        - product-class
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductClass'
-      operationId: get-product-class-slug
-      description: |
-        GET the detail of product class
-    patch:
-      summary: Update Product Class
-      operationId: patch-product-class-slug
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductClass'
-      description: Update product class data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductClass'
-      security:
-        - JWT Token: []
-      tags:
-        - product-class
-    delete:
-      summary: Delete Product Class
-      operationId: delete-product-class-slug
-      responses:
-        '204':
-          description: No Content
-      description: Delete product class
-      security:
-        - JWT Token: []
-      tags:
-        - product-class
-  /product-search/:
-    get:
-      summary: Search Product
-      tags:
-        - product
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Page:
-              description: A link to the next page of responses
-              schema:
-                type: integer
-            X-Per-Page:
-              description: Maximum number of results per page.
-              schema:
-                type: integer
-            X-Total-Results:
-              description: The total number of results across all pages.
-              schema:
-                type: integer
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    href:
-                      type: string
-      operationId: get-product-search
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: per_page
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
-        - name: q
-          required: false
-          in: query
-          description: A search term.
-          schema:
-            type: string
-      description: Search product
-  /reindex-product/:
-    get:
-      operationId: listdo_reindexs
-      description: Reindex SOLR product document index
-      parameters: []
-      responses:
-        '202':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-            text/html:
-              schema:
-                type: array
-                items: {}
-          description: ''
-      security:
-        - JWT Token: []
-      summary: Product Reindex
-      tags:
-        - product
-  /reindex-product-references/:
-    get:
-      operationId: listreindex_references
-      description: Republish all product references data
-      parameters: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-            text/html:
-              schema:
-                type: array
-                items: {}
-          description: ''
-      tags:
-        - reindex-product-references
-        - product
-      summary: Republish Product References
-      security:
-        - JWT Token: []
-  /reindex-vendor/:
-    get:
-      operationId: listreindex_vendors
-      description: Republish all vendor data
-      parameters: []
-      responses:
-        '202':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-            text/html:
-              schema:
-                type: array
-                items: {}
-          description: ''
-      tags:
-        - reindex-vendor
-        - vendor
-      summary: Republish Vendor
-      security:
-        - JWT Token: []
-  /reindex-category/:
-    get:
-      operationId: listreindex_categorys
-      description: Republish all category data
-      parameters: []
-      responses:
-        '202':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-            text/html:
-              schema:
-                type: array
-                items: {}
-          description: ''
-      tags:
-        - reindex-category
-        - category
-      summary: Republish Category
-      security:
-        - JWT Token: []
-  /reindex-product-class/:
-    get:
-      operationId: listreindex_product_class
-      description: Republish all Product Class data
-      parameters: []
-      responses:
-        '202':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-            text/html:
-              schema:
-                type: array
-                items: {}
-          description: ''
-      tags:
-        - product-class
-      summary: Reindex Product Class
-      security:
-        - JWT Token: []
+    '/category/{slug}/':
+        summary: Get detail of category identified by it slug
+        get:
+            tags:
+                - category
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Category'
+                    description: OK
+            operationId: get-category
+            summary: Category detail
+            description: |
+                Category Detail
+        delete:
+            tags:
+                - category
+            responses:
+                '204':
+                    description: No Content
+            operationId: delete-category-slug
+            summary: Delete Category
+            description: Delete Category
+        patch:
+            tags:
+                - category
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Category'
+                    description: OK
+            security:
+                -
+                    JWT Token: []
+            operationId: patch-category
+            summary: Update Category
+            description: Update category
+        parameters:
+            -
+                name: slug
+                description: Category identifier
+                schema:
+                    type: string
+                in: path
+                required: true
+    /category/:
+        get:
+            tags:
+                - category
+            parameters:
+                -
+                    name: page
+                    description: A page number within the paginated result set.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: per_page
+                    description: Number of results to return per page.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: q
+                    description: A search term.
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+                -
+                    name: ordering
+                    description: Which field to use when ordering the results.
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+                -
+                    name: path_name__icontains
+                    description: path_name__icontains
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+                -
+                    name: depth__lte
+                    description: depth__lte
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+                -
+                    name: depth
+                    description: depth
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+                -
+                    name: include_deleted
+                    description: Show soft deleted
+                    schema:
+                        type: string
+                    in: query
+            responses:
+                '200':
+                    headers:
+                        X-Page:
+                            schema:
+                                type: integer
+                            description: A link to the next page of responses
+                        X-Per-Page:
+                            schema:
+                                type: integer
+                            description: Maximum number of results per page.
+                        X-Total-Results:
+                            schema:
+                                type: integer
+                            description: The total number of results across all pages.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Category'
+                    description: OK
+            operationId: get-category-list
+            summary: Categories list
+            description: Category Listing
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Category'
+            tags:
+                - category
+            responses:
+                '201':
+                    headers:
+                        Location:
+                            schema:
+                                format: uri
+                                type: string
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                        application/xml:
+                            schema:
+                                type: object
+                    description: Created
+            security:
+                -
+                    JWT Token: []
+            operationId: post-category
+            summary: Create Category
+            description: Create new Category
+    /vendor/:
+        get:
+            tags:
+                - vendor
+            parameters:
+                -
+                    name: page
+                    description: A page number within the paginated result set.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: per_page
+                    description: Number of results to return per page.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: q
+                    description: A search term.
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+            responses:
+                '200':
+                    headers:
+                        X-Page:
+                            schema:
+                                type: integer
+                            description: A link to the next page of responses
+                        X-Per-Page:
+                            schema:
+                                type: integer
+                            description: Maximum number of results per page.
+                        X-Total-Results:
+                            schema:
+                                type: integer
+                            description: The total number of results across all pages.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Vendor'
+                    description: OK
+            operationId: get-vendor
+            summary: Vendor Detail
+            description: Get List of Vendor
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Vendor'
+            tags:
+                - vendor
+            responses:
+                '201':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    description: Created
+            security:
+                -
+                    JWT Token: []
+            operationId: post-vendor
+            summary: Create Vendor
+            description: |
+                Create new Vendor
+    '/vendor/{slug}/':
+        get:
+            tags:
+                - vendor
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Vendor'
+                    description: OK
+            operationId: get-vendor-slug
+            summary: Vendor Detail
+            description: Detail of vendor
+        delete:
+            tags:
+                - vendor
+            responses:
+                '204':
+                    description: No Content
+            security:
+                -
+                    JWT Token: []
+            operationId: delete-vendor-slug
+            summary: Delete Vendor
+            description: Delete Vendor
+        patch:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Vendor'
+            tags:
+                - vendor
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Vendor'
+                    description: OK
+            security:
+                -
+                    JWT Token: []
+            operationId: patch-vendor-slug
+            summary: Update Vendor
+            description: Update Vendor
+        parameters:
+            -
+                name: slug
+                schema:
+                    type: string
+                in: path
+                required: true
+    /product-option/:
+        get:
+            tags:
+                - product-option
+            parameters:
+                -
+                    name: page
+                    description: A page number within the paginated result set.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: per_page
+                    description: Number of results to return per page.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: q
+                    description: A search term.
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+            responses:
+                '200':
+                    headers:
+                        X-Page:
+                            schema:
+                                type: integer
+                            description: A link to the next page of responses
+                        X-Per-Page:
+                            schema:
+                                type: integer
+                            description: Maximum number of results per page.
+                        X-Total-Results:
+                            schema:
+                                type: integer
+                            description: The total number of results across all pages.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/ProductOption'
+                    description: OK
+            operationId: get-product-option
+            summary: List Product Option
+            description: List product option
+        post:
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProductOption'
+            tags:
+                - product-option
+            responses:
+                '201':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    description: Created
+            security:
+                -
+                    JWT Token: []
+            operationId: post-product-option
+            summary: Create Product Option
+            description: Create Product Option
+    '/product-option/{slug}/':
+        get:
+            tags:
+                - product-option
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductOption'
+                    description: OK
+            operationId: get-product-option-slug
+            summary: Product option detail
+            description: Get product option detail
+        delete:
+            tags:
+                - product-option
+            responses:
+                '204':
+                    description: No Content
+            security:
+                -
+                    JWT Token: []
+            operationId: delete-product-option-slug
+            summary: Delete Product Option
+            description: Delete Product Option
+        patch:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProductOption'
+            tags:
+                - product-option
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductOption'
+                    description: OK
+            security:
+                -
+                    JWT Token: []
+            operationId: patch-product-option-slug
+            summary: Update Product Option
+            description: Update product option
+        parameters:
+            -
+                name: slug
+                schema:
+                    type: string
+                in: path
+                required: true
+    /product-class/:
+        get:
+            tags:
+                - product-class
+            parameters:
+                -
+                    name: page
+                    description: A page number within the paginated result set.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: per_page
+                    description: Number of results to return per page.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: q
+                    description: A search term.
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+            responses:
+                '200':
+                    headers:
+                        X-Page:
+                            schema:
+                                type: integer
+                            description: A link to the next page of responses
+                        X-Per-Page:
+                            schema:
+                                type: integer
+                            description: Maximum number of results per page.
+                        X-Total-Results:
+                            schema:
+                                type: integer
+                            description: The total number of results across all pages.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/ProductClass'
+                    description: OK
+            operationId: get-product-class
+            summary: List Product Class
+            description: List product class
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProductClass'
+            tags:
+                - product-class
+            responses:
+                '201':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    description: Created
+            security:
+                -
+                    JWT Token: []
+            operationId: post-product-class
+            summary: Create Product Class
+            description: Create a new Product Class
+    '/product-class/{slug}/':
+        get:
+            tags:
+                - product-class
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductClass'
+                    description: OK
+            operationId: get-product-class-slug
+            summary: Product Class Detail
+            description: |
+                GET the detail of product class
+        delete:
+            tags:
+                - product-class
+            responses:
+                '204':
+                    description: No Content
+            security:
+                -
+                    JWT Token: []
+            operationId: delete-product-class-slug
+            summary: Delete Product Class
+            description: Delete product class
+        patch:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProductClass'
+            tags:
+                - product-class
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProductClass'
+                    description: OK
+            security:
+                -
+                    JWT Token: []
+            operationId: patch-product-class-slug
+            summary: Update Product Class
+            description: Update product class data
+        parameters:
+            -
+                name: slug
+                schema:
+                    type: string
+                in: path
+                required: true
+    /product-search/:
+        get:
+            tags:
+                - product
+            parameters:
+                -
+                    name: page
+                    description: A page number within the paginated result set.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: per_page
+                    description: Number of results to return per page.
+                    schema:
+                        type: integer
+                    in: query
+                    required: false
+                -
+                    name: q
+                    description: A search term.
+                    schema:
+                        type: string
+                    in: query
+                    required: false
+            responses:
+                '200':
+                    headers:
+                        X-Page:
+                            schema:
+                                type: integer
+                            description: A link to the next page of responses
+                        X-Per-Page:
+                            schema:
+                                type: integer
+                            description: Maximum number of results per page.
+                        X-Total-Results:
+                            schema:
+                                type: integer
+                            description: The total number of results across all pages.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        name:
+                                            type: string
+                                        href:
+                                            type: string
+                    description: OK
+            operationId: get-product-search
+            summary: Search Product
+            description: Search product
+    /reindex-product/:
+        get:
+            tags:
+                - product
+            responses:
+                '202':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                        text/html:
+                            schema:
+                                type: array
+                                items: {}
+                    description: ''
+            security:
+                -
+                    JWT Token: []
+            operationId: listdo_reindexs
+            summary: Product Reindex
+            description: Reindex SOLR product document index
+    /reindex-product-references/:
+        get:
+            tags:
+                - reindex-product-references
+                - product
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                        text/html:
+                            schema:
+                                type: array
+                                items: {}
+                    description: ''
+            security:
+                -
+                    JWT Token: []
+            operationId: listreindex_references
+            summary: Republish Product References
+            description: Republish all product references data
+    /reindex-vendor/:
+        get:
+            tags:
+                - reindex-vendor
+                - vendor
+            responses:
+                '202':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                        text/html:
+                            schema:
+                                type: array
+                                items: {}
+                    description: ''
+            security:
+                -
+                    JWT Token: []
+            operationId: listreindex_vendors
+            summary: Republish Vendor
+            description: Republish all vendor data
+    /reindex-category/:
+        get:
+            tags:
+                - reindex-category
+                - category
+            responses:
+                '202':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                        text/html:
+                            schema:
+                                type: array
+                                items: {}
+                    description: ''
+            security:
+                -
+                    JWT Token: []
+            operationId: listreindex_categorys
+            summary: Republish Category
+            description: Republish all category data
+    /reindex-product-class/:
+        get:
+            tags:
+                - product-class
+            responses:
+                '202':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                        text/html:
+                            schema:
+                                type: array
+                                items: {}
+                    description: ''
+            security:
+                -
+                    JWT Token: []
+            operationId: listreindex_product_class
+            summary: Reindex Product Class
+            description: Republish all Product Class data
 components:
-  schemas:
-    Category:
-      type: object
-      description: ''
-      properties:
-        name:
-          type: string
-          maxLength: 120
-        path_name:
-          type: string
-          maxLength: 255
-        product_count:
-          type: string
-          readOnly: true
-        depth:
-          type: integer
-          maximum: 32767
-          minimum: 0
-        source_mappings:
-          type: array
-          items:
-            type: string
-        href:
-          type: string
-          format: uri
-          readOnly: true
-        image:
-          type: string
-          format: binary
-        parent:
-          type: string
-          nullable: true
-          description: The first direct ancestor of this category
-        is_active:
-          type: boolean
-        slug:
-          type: string
-          readOnly: true
-      required:
-        - name
-    Vendor:
-      title: Vendor
-      type: object
-      properties:
-        name:
-          type: string
-        href:
-          type: string
-        description:
-          type: string
-        iconImage:
-          type: string
-          format: binary
-        internalNotes:
-          type: string
-        bannerImage:
-          type: string
-          format: binary
-        extra:
-          type: object
-          properties:
-            seoDescription:
-              type: string
-            seoKeywords:
-              type: string
-        productCount:
-          type: integer
-    ProductOption:
-      title: ProductOption
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        href:
-          type: string
-        type:
-          type: string
-        minimumLength:
-          type: string
-        maximumLength:
-          type: string
-        isActive:
-          type: string
-        webhookCheckDomain:
-          type: string
-        webhookPostCheckout:
-          type: string
-      description: ''
-    ProductAttribute:
-      title: ProductAttribute
-      type: object
-      properties:
-        name:
-          type: string
-        href:
-          type: string
-          format: uri
-        type:
-          type: string
-          enum:
-            - text
-            - markdown
-            - integer
-            - decimal
-            - color
-            - image
-            - boolean
-        productClasses:
-          type: array
-          items:
-            type: string
-        minValue:
-          type: number
-        maxValue:
-          type: number
-        isSearchable:
-          type: boolean
-        isFilterable:
-          type: boolean
-      description: ''
-    ProductClass:
-      title: ProductClass
-      type: object
-      properties:
-        name:
-          type: string
-        href:
-          type: string
-        requiresShipping:
-          type: boolean
-        trackStock:
-          type: boolean
-        isPerishable:
-          type: boolean
-        type:
-          type: string
-        productCount:
-          type: number
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductAttribute'
-        option:
-          $ref: '#/components/schemas/ProductOption'
-      required:
-        - name
-    Product:
-      title: Product
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        href:
-          type: string
-      description: Product
-  securitySchemes:
-    JWT Token:
-      type: http
-      scheme: bearer
+    schemas:
+        Vendor:
+            title: Vendor
+            type: object
+            properties:
+                name:
+                    type: string
+                href:
+                    type: string
+                description:
+                    type: string
+                iconImage:
+                    format: binary
+                    type: string
+                internalNotes:
+                    type: string
+                bannerImage:
+                    format: binary
+                    type: string
+                extra:
+                    type: object
+                    properties:
+                        seoDescription:
+                            type: string
+                        seoKeywords:
+                            type: string
+                productCount:
+                    type: integer
+        ProductOption:
+            title: ProductOption
+            description: ''
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                href:
+                    type: string
+                type:
+                    type: string
+                minimumLength:
+                    type: string
+                maximumLength:
+                    type: string
+                isActive:
+                    type: string
+                webhookCheckDomain:
+                    type: string
+                webhookPostCheckout:
+                    type: string
+        ProductAttribute:
+            title: ProductAttribute
+            description: ''
+            type: object
+            properties:
+                name:
+                    type: string
+                href:
+                    format: uri
+                    type: string
+                type:
+                    enum:
+                        - text
+                        - markdown
+                        - integer
+                        - decimal
+                        - color
+                        - image
+                        - boolean
+                    type: string
+                productClasses:
+                    type: array
+                    items:
+                        type: string
+                minValue:
+                    type: number
+                maxValue:
+                    type: number
+                isSearchable:
+                    type: boolean
+                isFilterable:
+                    type: boolean
+        ProductClass:
+            title: ProductClass
+            required:
+                - name
+            type: object
+            properties:
+                name:
+                    type: string
+                href:
+                    type: string
+                requiresShipping:
+                    type: boolean
+                trackStock:
+                    type: boolean
+                isPerishable:
+                    type: boolean
+                type:
+                    type: string
+                productCount:
+                    type: number
+                attributes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ProductAttribute'
+                option:
+                    $ref: '#/components/schemas/ProductOption'
+        Product:
+            title: Product
+            description: Product
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                href:
+                    type: string
+        Category:
+            description: ''
+            required:
+                - name
+            type: object
+            properties:
+                name:
+                    description: The displayed 'name' of the category
+                    maxLength: 120
+                    type: string
+                path_name:
+                    description: Full path display of the category
+                    maxLength: 255
+                    type: string
+                product_count:
+                    description: Number of product
+                    type: string
+                    readOnly: true
+                depth:
+                    description: Indicate the depth of the category in the tree
+                    maximum: 32767
+                    minimum: 0
+                    type: integer
+                source_mappings:
+                    type: array
+                    items:
+                        type: string
+                href:
+                    format: uri
+                    description: String encoded URL that uniquely identifies this category instance
+                    type: string
+                    readOnly: true
+                image:
+                    format: binary
+                    description: Uploaded image's url
+                    type: string
+                parent:
+                    nullable: true
+                    description: |-
+                        The first direct ancestor of this category
+                        String encoded URL that uniquely identifies this category's parent instance
+                    type: string
+                is_active:
+                    description: Status active / deleted
+                    type: boolean
+                slug:
+                    type: string
+                    readOnly: true
+                is_interested_category:
+                    description: Featured category flag
+                    type: boolean
+            example:
+                name: Candies
+                pathName: Candies
+                productCount: 13
+                depth: 1
+                sourceMappings: []
+                href: 'https://site.bhisma.cloud/api/catalog/category/candies/'
+                image: >-
+                    https://staging-cdn.bhisma.cloud/catalog/site.bhisma.cloud/category/75c19a03-7440-4ce7-aa89-7242dd235c55.jpg
+                isActive: true
+                isInterestedCategory: true
+                slug: candies
+    securitySchemes:
+        JWT Token:
+            scheme: bearer
+            type: http
+tags:
+    -
+        name: product-class
+        description: Product Class API
+    -
+        name: product-option
+        description: Product Option API
+    -
+        name: product
+        description: Product API
+    -
+        name: category
+        description: Category API
+    -
+        name: vendor
+        description: Vendor API
+    -
+        name: reindex-product-references
+    -
+        name: reindex-vendor
+    -
+        name: reindex-category
